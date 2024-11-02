@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Transaction{% endblock %}
+{% load crispy_forms_tags %}
+{% block extra_css %}
+<style>
+    .spinner-border {
+        width: 1rem;
+        height: 1rem;
+        margin-left: 0.5rem;
+    }
+    .card-header h5 {
+        font-weight: bold;
+    }
+
+    /* Responsive styles for form layout */
+    @media (max-width: 576px) {  /* For mobile devices */
+        .table-responsive {
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        .table tbody tr {
+            display: block; /* Stack rows vertically */
+            margin-bottom: 15px; /* Spacing between fields */
+        }
+        .table tbody tr td {
+            display: block; /* Each field takes full width */
+            width: 100%; /* Full width on mobile */
+        }
+        .table tbody tr td:last-child {
+            display: none; /* Hide the small info text for mobile */
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header bg-light text-primary d-flex justify-content-between align-items-center">
+            <h6>Edit Transaction</h6>
+            <i class="fas fa-edit"></i>
+        </div>
+        <div class="card-body">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form id="transactionForm" method="post" novalidate class="p-3">
+                {% csrf_token %}
+
+                <table class="table table-striped table-hover">
+                    <tbody>
+                        <tr>
+                            <td>{{ form.network|as_crispy_field }}</td>
+                            <td>{{ form.action|as_crispy_field }}</td>
+                            <td>{{ form.customer|as_crispy_field }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.amount|as_crispy_field }}</td>
+                            <td>{{ form.phonenumber|as_crispy_field }}</td>
+                            <td>
+                                <small class="form-text text-muted">Enter a 10-digit phone number.</small>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" id="submitButton" class="btn btn-info btn-sm mr-2">
+                        Update Transaction
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    </button>
+                    <button type="reset" class="btn btn-warning btn-sm">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Phone number validation
+        $('#id_phonenumber').on('input', function() {
+            let value = $(this).val();
+            if (value.length !== 10 || isNaN(value)) {
+                $(this).addClass('is-invalid');
+                $(this).removeClass('is-valid');
+            } else {
+                $(this).addClass('is-valid');
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+        // Show loading spinner on submit button
+        $('#transactionForm').on('submit', function(event) {
+            let submitButton = $('#submitButton');
+            submitButton.prop('disabled', true);  // Disable the button
+            submitButton.find('.spinner-border').removeClass('d-none'); // Show spinner
+            submitButton.contents().filter(function() {
+                return this.nodeType === 3;
+            }).replaceWith('Updating...'); // Replace button text
+        });
+    });
+</script>
+{% endblock %}

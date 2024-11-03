@@ -2,6 +2,14 @@
 
 ## TARGETED FOR FINANCIAL AGENTS
 
+## Screenshots
+Here are some screenshots of the Daily Transactions Management System:
+
+| Screenshot | Description |
+|------------|-------------|
+| ![screenshot_1](https://github.com/user-attachments/assets/d7c958e0-b504-466a-85f4-5e351d5d43ba) | Screenshot of the Daily Transactions Management System interface. |
+| ![5](https://github.com/user-attachments/assets/1a4b4e08-6af0-4006-98a6-0452d7b61db4) | Another view of the application highlighting transaction analytics. |
+
 ## 1. Introduction
 The Daily Transactions Management System is designed to facilitate the recording and management of financial transactions conducted by agents. This web-based application enables agents to efficiently handle money transfers and withdrawals while simultaneously sending SMS notifications to customers to confirm the completion of their transactions. This project uses an SMS API, but you must use your own SMS API provided by the telecom company. The system includes the following key features:
 

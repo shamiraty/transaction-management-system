@@ -4,14 +4,15 @@
 
 ## Screenshots
 
-| Screenshot | Screenshot |
-|------------|------------|
+![14](https://github.com/user-attachments/assets/ed69de88-6362-4646-a141-ac93cf8d40ec)
+![5](https://github.com/user-attachments/assets/0d5eb0d2-7ca2-4f5a-a936-eb6a09858892)
+![screenshot_2](https://github.com/user-attachments/assets/66ad8240-4167-4507-bf58-faf485f92d8f)
+![screenshot_1](https://github.com/user-attachments/assets/720097eb-bc05-4b19-999d-56771d398fef)
 
-| ![screenshot_2](https://github.com/user-attachments/assets/66ad8240-4167-4507-bf58-faf485f92d8f) | ![screenshot_1](https://github.com/user-attachments/assets/720097eb-bc05-4b19-999d-56771d398fef) |
 
 **Live Demo:** [View the Live Demo](https://transactionmis.pythonanywhere.com/)
-Login username:  demo
-password: demo1234
+- Login username:  **demo**
+- Login password: **demo1234**
 
 ## 1. Introduction
 The Daily Transactions Management System is designed to facilitate the recording and management of financial transactions conducted by agents. This web-based application enables agents to efficiently handle money transfers and withdrawals while simultaneously sending SMS notifications to customers to confirm the completion of their transactions. This project uses an SMS API, but you must use your own SMS API provided by the telecom company. The system includes the following key features:
@@ -85,3 +86,23 @@ The Daily Transactions Management System provides a solid foundation for managin
 | **Integration with Telecom Companies' API** | Integrating the system with telecom companies' API for transactions to streamline operations further. |
 
 This project not only streamlines transaction management but also paves the way for more advanced financial services in the future.
+
+
+**My Contacts**
+
+**WhatsApp**  
++255675839840  
++255656848274
+
+**YouTube**  
+[Visit my YouTube Channel](https://www.youtube.com/channel/UCjepDdFYKzVHFiOhsiVVffQ)
+
+**Telegram**  
++255656848274  
++255738144353
+
+**PlayStore**  
+[Visit my PlayStore Developer Page](https://play.google.com/store/apps/dev?id=7334720987169992827&hl=en_US&pli=1)
+
+**GitHub**  
+[Visit my GitHub](https://github.com/shamiraty/)

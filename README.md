@@ -9,6 +9,10 @@
 | ![14](https://github.com/user-attachments/assets/ed69de88-6362-4646-a141-ac93cf8d40ec) | ![5](https://github.com/user-attachments/assets/0d5eb0d2-7ca2-4f5a-a936-eb6a09858892) |
 | ![screenshot_2](https://github.com/user-attachments/assets/66ad8240-4167-4507-bf58-faf485f92d8f) | ![screenshot_1](https://github.com/user-attachments/assets/720097eb-bc05-4b19-999d-56771d398fef) |
 
+**Live Demo:** [View the Live Demo](https://transactionmis.pythonanywhere.com/)
+Login username:  demo
+password: demo1234
+
 ## 1. Introduction
 The Daily Transactions Management System is designed to facilitate the recording and management of financial transactions conducted by agents. This web-based application enables agents to efficiently handle money transfers and withdrawals while simultaneously sending SMS notifications to customers to confirm the completion of their transactions. This project uses an SMS API, but you must use your own SMS API provided by the telecom company. The system includes the following key features:
 

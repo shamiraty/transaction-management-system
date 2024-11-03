@@ -1,13 +1,14 @@
-# DAILY TRANSACTIONS MANAGEMENT SYSTEM
+## DAILY TRANSACTIONS MANAGEMENT SYSTEM
 
-## TARGETED FOR FINANCIAL AGENTS
+### TARGETED FOR FINANCIAL AGENTS
 
-## Screenshots
+### AUTOMATED FINANCIAL RECORD & CUSTOMER RELATIONSHIPS
+
+### Screenshots
 
 ![5](https://github.com/user-attachments/assets/0d5eb0d2-7ca2-4f5a-a936-eb6a09858892)
 ![screenshot_2](https://github.com/user-attachments/assets/66ad8240-4167-4507-bf58-faf485f92d8f)
 ![screenshot_1](https://github.com/user-attachments/assets/720097eb-bc05-4b19-999d-56771d398fef)
-
 
 **Live Demo:** [View the Live Demo](https://transactionmis.pythonanywhere.com/)
 - Login username:  **demo**

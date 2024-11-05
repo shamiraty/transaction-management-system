@@ -4,253 +4,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transaction</title>
+  <title>TMIS</title>
   <link href="{% static 'bootstrap/css/ajax_cloudfare.css' %}" rel="stylesheet">
   <link href="{% static 'bootstrap/css/fonts.css' %}" rel="stylesheet">
-  <link href="{% static 'bootstrap/css/theme5.css' %}" rel="stylesheet">
+  <link href="{% static 'bootstrap/css/theme6.css' %}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+  {% block extra_css %}
+  {% endblock %}
 </head>
 <body>
-    {% block extra_css %}
-    {% endblock %}
-<!-- Sidebar -->
-<div class="sidebar collapsed" id="sidebar">
-  <div class="brand-section text-center">
-    <h4 class="brand-title"><i class="fas fa-mobile-alt"></i> MOBILE</h4>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">TMIS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <!-- User Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i> User
+          </a>
+          <div class="dropdown-menu">
+            {% if user.is_authenticated %}
+              <a class="dropdown-item" href="{% url 'password_change' %}">
+                <i class="fa fa-key"></i> Change Password
+              </a>
+              <hr class="dropdown-divider">
+              <a class="dropdown-item" href="{% url 'admin:index' %}">
+                <i class="fa fa-cog"></i> Administration
+              </a>
+              <hr class="dropdown-divider">
+              <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item"><i class="fa fa-sign-out-alt"></i> Logout</button>
+              </form>
+            {% else %}
+              <a class="dropdown-item" href="{% url 'admin:index' %}">
+                <i class="fa fa-sign-in-alt"></i> Login
+              </a>
+              <hr class="dropdown-divider">
+              <a class="dropdown-item" href="#">
+                <i class="fa fa-user-plus"></i> Sign Up
+              </a>
+            {% endif %}
+          </div>
+        </li>
+
+        <!-- Products Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Products</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'add_product' %}">
+              <i class="fa fa-plus"></i> Add New Product
+            </a>
+            <a class="dropdown-item" href="{% url 'product_list' %}">
+              <i class="fa fa-list"></i> Sale Product
+            </a>     
+            <a class="dropdown-item" href="{% url 'sold_product_list' %}">
+              <i class="fa fa-check"></i> Sold Products
+            </a>
+            <a class="dropdown-item" href="{% url 'product_list_view' %}">
+              <i class="fa fa-eye"></i> All Products
+            </a>
+            <a class="dropdown-item" href="{% url 'analytics' %}">
+              <i class="fa fa-chart-bar"></i> Sales Report
+            </a>
+          </div>
+        </li>
+        
+        <!-- Transactions Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Transactions</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'transaction_create' %}">
+              <i class="fa fa-file-invoice"></i> Create Transaction
+            </a>
+            <a class="dropdown-item" href="{% url 'transaction_list' %}">
+              <i class="fa fa-list-alt"></i> Transaction List
+            </a>
+            <a class="dropdown-item" href="{% url 'transaction_summary' %}">
+              <i class="fa fa-chart-line"></i> Transaction Trends
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
-  <nav class="nav flex-column">
-    <a href="{% url 'transaction_summary' %}" class="nav-link">
-        <i class="fas fa-chart-line"></i> <span>Report</span>
-    </a>
-    <a href="{% url 'transaction_list' %}" class="nav-link">
-        <i class="fas fa-list"></i> <span>Transaction List</span>
-    </a>
-    <a href="{% url 'transaction_create' %}" class="nav-link">
-        <i class="fas fa-plus-circle"></i> <span>Create Transaction</span>
-    </a>
-    <a href="#" class="nav-link">
-        <i class="fas fa-user-circle"></i> <span>Profile</span>
-    </a>
-    <a href="#" class="nav-link">
-        <i class="fas fa-cogs"></i> <span>Settings</span>
-    </a>
-    <a href="#" class="nav-link">
-        <i class="fas fa-question-circle"></i> <span>Help</span>
-    </a>
-    <a href="#" class="nav-link">
-        <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
-    </a>
 </nav>
-</div>
-<!-- Main Content -->
-<div class="main-content collapsed" id="mainContent">
-  <!-- Top Navigation Bar -->
-  <nav class="navbar navbar-expand navbar-dark top-nav fixed-top">
-    <button class="btn btn-toggle text-white" id="toggleSidebar"><i class="fas fa-bars"></i></button>
-    <!-- Profile Section on Navbar Right -->
-<div class="ms-auto d-flex align-items-center">
-  {% if user.is_authenticated %}
-    <!-- Dropdown for Authenticated User -->
-    <div class="dropdown">
-      <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-user-alt rounded-circle me-2"></i> Welcome, {{ user.username }}
-      </a>
-      <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{% url 'password_change' %}">
-          <i class="fas fa-key"></i> Change Password
-        </a>
-        <hr class="dropdown-divider">
-        <a class="dropdown-item" href="{% url 'admin:index' %}">
-          <i class="fas fa-tachometer-alt"></i> Administration
-        </a>
-        <hr class="dropdown-divider">
-        <form method="POST" action="{% url 'logout' %}">
-          {% csrf_token %}
-          <button type="submit" class="dropdown-item">
-            <i class="fas fa-sign-out-alt"></i> Logout
-          </button>
-        </form>
-      </div>
-    </div>
-  {% else %}
-    <!-- Dropdown for Anonymous User -->
-    <div class="dropdown">
-      <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-user-circle me-2"></i> Anonymous User
-      </a>
-      <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{% url 'admin:index' %}">
-          <i class="fas fa-sign-in-alt"></i> Login
-        </a>
-        <hr class="dropdown-divider">
-        <a class="dropdown-item" href="">
-          <i class="fas fa-user-plus"></i> Sign Up
-        </a>
-      </div>
-    </div>
-  {% endif %}
-</div>
-  </nav>
-  <!-- Page Content -->
-  <div class="container-fluid pt-4">
-    {% block content %}
-    <!-- Default content can go here, or leave it empty for child templates to fill -->
-    {% endblock %}
-  </div>
 
-  <!-- Footer -->
-  <footer class="footer bg-light text-center py-2">
-    <p class="mb-0">&copy; 2024 sameer suleman +255675839840. All rights reserved.</p>
-  </footer>
+<!-- CSS to set dropdown item colors and body styles -->
+<style>
+  body {
+    margin-top: 80px; /* Space for the fixed navbar */
+  }
 
+  .dropdown-item {
+    color: white; /* Set dropdown item text color to white */
+  }
+
+  .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Optional: add hover effect */
+  }
+</style>
+
+
+
+
+<!-- Page Content -->
+<div class="container-fluid mt-4">
+  {% block content %}
+  <!-- Default content can go here, or leave it empty for child templates to fill -->
+  {% endblock %}
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-- Full version -->
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- Font Awesome CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const sidebar = document.getElementById("sidebar");
-  const mainContent = document.getElementById("mainContent");
-  const toggleSidebarButton = document.getElementById("toggleSidebar");
-
-  toggleSidebarButton.addEventListener("click", () => {
-    sidebar.classList.toggle("collapsed");
-    mainContent.classList.toggle("collapsed");
-  });
-});
-</script>
 {% block extra_js %}
 {% endblock %}
-<!-- Extra JS Block -->
-
-
-<style>
-/* Base styles */
-body {
-  display: flex;
-  min-height: 100vh;
-  margin: 0;
- 
-
-  padding-top: 4.5rem; /* Adjusted for navbar height */
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-  color: #333;
-}
-
-
-/* Sidebar Styling */
-.sidebar {
-  width: 250px;
-  background-color: #0c5e94;
-  color: #ffffff;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  transition: width 0.3s;
-}
-
-.sidebar.collapsed {
-  width: 70px;
-}
-
-.brand-section {
-  padding: 1rem;
-  background-color: #014570;
-}
-
-.brand-title {
-  font-size: 1.25rem;
-  color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-link {
-  color: #ffffff;
-  padding: 0.75rem 1.25rem;
-  display: flex;
-  align-items: center;
-  transition: background 0.3s, color 0.3s;
-}
-
-.nav-link i {
-  margin-right: 0.75rem;
-  font-size: 1.2rem;
-}
-
-.nav-link:hover {
-  background-color: #005082; /* Hover color change */
-  color: #ffffff; /* Keeps text white on hover */
-  text-decoration: none; /* Removes any underline */
-}
-
-.nav-link span {
-  display: inline;
-}
-
-.sidebar.collapsed .nav-link span {
-  display: none;
-}
-
-/* Main Content */
-.main-content {
-  margin-left: 250px;
-  width: calc(100% - 250px);
-  transition: margin-left 0.3s, width 0.3s;
-}
-
-.main-content.collapsed {
-  margin-left: 70px;
-  width: calc(100% - 70px);
-}
-
-/* Top Navbar */
-.top-nav {
-  background-color: #0074b7; /* Adjusted color for the top navbar */
-  color: #ffffff;
-}
-
-.top-nav .btn-toggle {
-  color: #ffffff;
-  font-size: 1.2rem;
-  transition: color 0.3s ease-in-out, transform 0.3s;
-}
-
-.top-nav .btn-toggle:hover {
-  color: #ffc107;
-  transform: rotate(90deg);
-}
-
-/* Navbar Text */
-.navbar-dark .navbar-brand, .navbar-dark .nav-link {
-  color: #ffffff !important;
-}
-
-.dropdown-menu a {
-  display: flex;
-  align-items: center;
-}
-
-.dropdown-menu a i {
-  margin-right: 0.5rem;
-}
-
-/* Footer Styling */
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #f8f9fa;
-  color: #333;
-  z-index: 1030;
-  padding: 0.5rem 0;
-}
-</style>
 
 </body>
 </html>

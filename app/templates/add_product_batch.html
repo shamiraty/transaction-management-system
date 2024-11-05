@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="card shadow-lg">
+    <div class="card-header">Add Products in Batch</div>
+    <div class="card-body">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" id="product-form">
+    {% csrf_token %}
+    {% crispy form %}
+
+    <!-- Progress Indicator -->
+    <div id="progress" class="progress mt-3" style="display: none;">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%">Submitting...</div>
+    </div>
+  </form>
+
+  {% block extra_js %}
+  <script>
+    $(document).ready(function() {
+      $('#product-form').on('submit', function() {
+        $('#progress').show();
+      });
+    });
+  </script>
+{% endblock %}
+{% endblock %}

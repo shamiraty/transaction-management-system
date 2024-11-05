@@ -1,0 +1,21 @@
+email: mfumomfumo78@gmail.com
+password: dodomamoja.1
+recover:  0656 848 274
+recover: shamirisaidiselemani@gmail.com
+
+
+PYTHON ANYWHERE
+username: transactionmis
+password: dodomamoja.1
+email: mfumomfumo78@gmail.com
+
+site:  https://transactionmis.pythonanywhere.com/
+git:   https://github.com/shamiraty/transaction-management-system
+
+
+username: samir 
+pass:  1
+
+
+username: demo
+pass: demo1234

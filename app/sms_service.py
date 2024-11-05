@@ -7,8 +7,8 @@ logger = logging.getLogger(__name__)
 
 class SMSService:
     def __init__(self):
-        self.url = 'https://your-address/api/pushSMS'
-        self.api_key = 'your-key'  # Your API key
+        self.url = 'your_API_url'
+        self.api_key = 'your_API_KEY'  # Your API key
 
     def send_sms(self, phone, message):
         try:

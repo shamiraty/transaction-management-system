@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    #productTable th, #productTable td {
+        border: 1px solid #dee2e6; /* Light border for table cells */
+        padding: 8px; /* Adds padding inside cells for better readability */
+        text-align: left; /* Aligns text to the left inside cells */
+    }
+</style>
+<div class="card">
+    <div class="card-header bg-primary text-white"> All Products</div>
+    <div class="card-body">
+<div class="table-responsive">
+<table class="table table-striped "id="productTable">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Purchasing Price</th>
+            <th>Selling Price</th>
+            <th>View</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>{{ product.purchasing_price }}</td>
+                <td>{{ product.selling_price }}</td>
+                <td>
+                    <button class="btn btn-info" onclick="viewProduct({{ product.id }})">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-warning" onclick="updateProduct({{ product.id }})">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" onclick="deleteProduct({{ product.id }})">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Modals -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="productModalContent"></div>
+    </div>
+</div>
+{% block extra_js %}
+<script>
+function viewProduct(id) {
+    $.ajax({
+        url: `{% url 'product_detail' pk=0 %}`.replace(0, id),
+        success: function(data) {
+            $('#productModalContent').html(`
+                <div class="modal-header">
+                    <h5>Product Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Name:</strong> ${data.product_name}</li>
+                        <li class="list-group-item"><strong>Description:</strong> ${data.product_description}</li>
+                        <li class="list-group-item"><strong>Purchasing Price:</strong> ${data.purchasing_price}</li>
+                        <li class="list-group-item"><strong>Selling Price:</strong> ${data.selling_price}</li>
+                        <li class="list-group-item"><strong>Expected Profit:</strong> ${data.expected_profit}</li>
+                        <li class="list-group-item"><strong>Expiry Date:</strong> ${data.expiry_date}</li>
+                    </ul>
+                </div>
+            `);
+            $('#productModal').modal('show');
+        }
+    });
+}
+
+function updateProduct(id) {
+    $.ajax({
+        url: `/products/${id}/update/`,
+        type: 'GET',
+        success: function(data) {
+            $('#productModalContent').html(data);  // Load response HTML into modal
+            $('#productModal').modal('show');
+
+            // Form submission for update
+            $('#productModal form').on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: this.action,
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if (response.success) {
+                            $('#productModal').modal('hide');
+                            Swal.fire({
+                                title: 'Updated!',
+                                text: 'Product updated successfully!',
+                                icon: 'success'
+                            }).then(() => location.reload());  // Reload page after confirmation
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Failed to update product. Please try again.',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An unexpected error occurred.',
+                            icon: 'error'
+                        });
+                    }
+                });
+            });
+        },
+        error: function() {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to load the update form.',
+                icon: 'error'
+            });
+        }
+    });
+}
+
+function deleteProduct(id) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "This action cannot be undone!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `{% url 'product_delete' pk=0 %}`.replace(0, id),
+                type: 'POST',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Product deleted successfully!',
+                            icon: 'success'
+                        }).then(() => location.reload());  // Reload page after deletion
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to delete product. Please try again.',
+                            icon: 'error'
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An unexpected error occurred while deleting.',
+                        icon: 'error'
+                    });
+                }
+            });
+        }
+    });
+}
+</script>
+
+
+
+
+
+
+<!-- Initialize DataTable -->
+<script>
+    $(document).ready(function() {
+        // Check if the DataTable is already initialized and destroy it
+        if ($.fn.DataTable.isDataTable('#productTable')) {
+            $('#productTable').DataTable().destroy();
+        }
+    
+        // Initialize the DataTable
+        $('#productTable').DataTable({
+            // Your options here
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthChange": true,
+            "language": {
+                "search": "Filter records:",
+                "lengthMenu": "Show _MENU_ entries",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "paginate": {
+                    "previous": "Previous",
+                    "next": "Next"
+                }
+            }
+        });
+    });
+    
+</script>
+{% endblock %}
+{% endblock %}

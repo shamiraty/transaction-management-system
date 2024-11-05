@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Product and Sales Analytics{% endblock %}
+{% load humanize %}
+{% block content %}
+<style>
+    .table th, .table td {
+        border: 1px solid #dee2e6; /* Light border for table cells */
+        padding: 12px; /* Adds padding inside cells for better readability */
+        text-align: left; /* Aligns text to the left inside cells */
+    }
+    .table th {
+        background-color: #f8f9fa; /* Light gray background for headers */
+    }
+    .section-title {
+        margin-top: 30px;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+</style>
+
+<div class="container-fluid mt-5">
+    <!-- Product Analytics Card -->
+    <div class="card mb-5 shadow-lg">
+        <div class="card-header bg-light text-primary">
+            <h6>PRODUCT  STATUS</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="productAnalyticsTable" class="table  table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Count</th>
+                            <th>Sum Purchasing Price</th>
+                            <th>Sum Selling Price</th>
+                            <th>Sum Expected Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in product_analytics_data %}
+                        <tr>
+                            <td>{{ data.category.name }}</td>
+                            <td>{{ data.product_count }}</td>
+                            <td>{{ data.total_purchasing_price|floatformat:2 }}</td>
+                            <td>{{ data.total_selling_price|floatformat:2 }}</td>
+                            <td>{{ data.total_expected_profit|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Grand Total</th>
+                            <th>{{ grand_total_products }}</th>
+                            <th>{{ grand_total_purchasing_price|floatformat:2 }}</th>
+                            <th>{{ grand_total_selling_price|floatformat:2 }}</th>
+                            <th>{{ grand_total_expected_profit|floatformat:2 }}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales Analytics Card -->
+    <div class="card mb-5 shadow-lg">
+        <div class="card-header bg-light text-primary">
+            <h6>SALES TRENDS</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="salesAnalyticsTable" class="table  table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Period</th>
+                            <th>Total Sold Products</th>
+                            <th>Total Sales Amount</th>
+                            <th>Total Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Today</td>
+                            <td>{{ sales_analytics_data.today.count }}</td>
+                            <td>{{ sales_analytics_data.today.total_sales|floatformat:2 }}</td>
+                            <td>{{ sales_analytics_data.today.total_profit|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                            <td>Yesterday</td>
+                            <td>{{ sales_analytics_data.yesterday.count }}</td>
+                            <td>{{ sales_analytics_data.yesterday.total_sales|floatformat:2 }}</td>
+                            <td>{{ sales_analytics_data.yesterday.total_profit|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                            <td>This Week</td>
+                            <td>{{ sales_analytics_data.this_week.count }}</td>
+                            <td>{{ sales_analytics_data.this_week.total_sales|floatformat:2 }}</td>
+                            <td>{{ sales_analytics_data.this_week.total_profit|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                            <td>This Month</td>
+                            <td>{{ sales_analytics_data.this_month.count }}</td>
+                            <td>{{ sales_analytics_data.this_month.total_sales|floatformat:2 }}</td>
+                            <td>{{ sales_analytics_data.this_month.total_profit|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                            <td>Lifetime</td>
+                            <td>{{ sales_analytics_data.lifetime.count }}</td>
+                            <td>{{ sales_analytics_data.lifetime.total_sales|floatformat:2 }}</td>
+                            <td>{{ sales_analytics_data.lifetime.total_profit|floatformat:2 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Most Sold Products Card -->
+    <div class="card mb-5 shadow-lg">
+        <div class="card-header bg-light text-primary">
+            <h6>MOST SOLD PRODUCTS</h6>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for product in most_sold_products %}
+                <li class="list-group-item">{{ product.product_name }} - Sold: {{ product.total_sold }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable for Product Analytics
+        $('#productAnalyticsTable').DataTable({
+            "order": [[1, "desc"]], // Sort by All Products Count descending
+            "lengthMenu": [5, 10, 25, 50, 100], // Pagination options
+            "searching": false, // Disable searching
+            "language": {
+                "emptyTable": "No product analytics data available." // Message for empty table
+            }
+        });
+
+        // Initialize DataTable for Sales Analytics
+        $('#salesAnalyticsTable').DataTable({
+            "order": [[1, "desc"]], // Sort by Total Sold Products descending
+            "lengthMenu": [5, 10, 25, 50, 100], // Pagination options
+            "searching": false, // Disable searching
+            "language": {
+                "emptyTable": "No sales analytics data available." // Message for empty table
+            }
+        });
+    });
+</script>
+{% endblock %}

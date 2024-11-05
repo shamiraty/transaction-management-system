@@ -68,3 +68,77 @@ def send_sms_on_delete(sender, instance, **kwargs):
     )
     sms_service.send_sms(instance.phonenumber, message)
 #******************************************************************************
+class Tax(models.Model):
+    tax_collection = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"Tax: {self.tax_collection}%"
+#******************************************************************************
+class ProductCategory(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+#******************************************************************************
+class Product(models.Model):
+    product_name = models.CharField(max_length=200)
+    product_description = models.TextField(blank=True, null=True)
+    purchasing_price = models.DecimalField(max_digits=10, decimal_places=2)
+    selling_price = models.DecimalField(max_digits=10, decimal_places=2)
+    tax_collection = models.ForeignKey(Tax, on_delete=models.CASCADE, default=1)
+    expected_profit = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    barcode = models.CharField(max_length=100, blank=True, null=True)
+    expiry_date = models.DateField(null=True, blank=True)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Calculate expected profit: selling_price - purchasing_price - tax_collection
+        tax_value = self.tax_collection.tax_collection if self.tax_collection else 0
+        self.expected_profit = self.selling_price - self.purchasing_price - tax_value
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.product_name
+#******************************************************************************
+class Sales(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    profit = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Calculate profit: selling_price - purchasing_price - tax_collection
+        tax_value = self.product.tax_collection.tax_collection if self.product.tax_collection else 0
+        self.profit = self.product.selling_price - self.product.purchasing_price - tax_value
+        super().save(*args, **kwargs)
+        
+
+    def __str__(self):
+        return f'Sale of {self.product.product_name} by {self.user.username}'
+
+#******************************************************************************
+class SoldProduct(models.Model):
+    product_name = models.CharField(max_length=200)
+    product_description = models.TextField(blank=True, null=True)
+    purchasing_price = models.DecimalField(max_digits=10, decimal_places=2)
+    selling_price = models.DecimalField(max_digits=10, decimal_places=2)
+    tax_collection = models.ForeignKey(Tax, on_delete=models.CASCADE, default=1)
+    expected_profit = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    barcode = models.CharField(max_length=100, blank=True, null=True)
+    expiry_date = models.DateField(null=True, blank=True)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    profit = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Calculate expected profit
+        self.expected_profit = self.selling_price - self.purchasing_price - self.tax_collection.tax_collection
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.product_name} sold by {self.user.username}"

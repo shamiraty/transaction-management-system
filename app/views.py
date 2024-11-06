@@ -28,7 +28,7 @@ def transaction_create(request):
             messages.error(request, "There was an error creating the transaction.")
     else:
         form = TransactionForm()
-    return render(request, 'index.html', {'form': form})
+    return render(request, 'transaction_create.html', {'form': form})
 
 #******************************************************************************
 #this function  list transactions on datatable
@@ -389,9 +389,10 @@ def analytics_page(request):
     return render(request, 'analytics.html', context)
 
  
- 
- 
- 
+ #******************************************************************************
+#product analytics
+def home(request):
+ return render(request,'home.html')
  
  
  

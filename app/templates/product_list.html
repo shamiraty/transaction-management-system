@@ -152,13 +152,15 @@
         $('#productTableList').DataTable({
             "order": [[1, "desc"]], // Sort by All Products Count descending
             "lengthMenu": [10, 15, 25, 50, 100], // Pagination options
-            "searching": true, // Disable searching
+            "lengthChange": false,  // Disable changing page length from the dropdown
+            "searching": true, // Disable searching box
             "language": {
                 "emptyTable": "No product analytics data available." // Message for empty table
             }
         });
     });
 </script>
+
 
 {% endblock %}
 

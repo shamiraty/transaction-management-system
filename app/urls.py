@@ -20,7 +20,7 @@ urlpatterns = [
     path('transactions/<int:pk>/delete/', transaction_delete, name='transaction_delete'), 
     
     #transaction analytics
-    path('', transaction_summary, name='transaction_summary'),
+    path('transaction_summary', transaction_summary, name='transaction_summary'),
     
     #add product
     path('add_product/', add_product_batch, name='add_product'),
@@ -45,5 +45,7 @@ urlpatterns = [
     
     #product tends
      path('analytics/', analytics_page, name='analytics'), 
+     
+     path('', views.home, name='home'), 
 
 ]

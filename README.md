@@ -1,12 +1,14 @@
 ## DAILY TRANSACTIONS MANAGEMENT SYSTEM
 
-### Targeted for Financial Agents
+### TARGETED FOR FINANCIAL AGENTS
 
-### Automated Financial Record & Customer Relationship Management
+### AUTOMATED FINANCIAL RECORD & CUSTOMER RELATIONSHIP MANAGEMENT
 
 ### Screenshots
 
 ![5](https://github.com/user-attachments/assets/0d5eb0d2-7ca2-4f5a-a936-eb6a09858892)
+![screenshot_1](https://github.com/user-attachments/assets/0e470438-ea17-4ea4-9dee-fa9c355435e0)
+![screenshot_7](https://github.com/user-attachments/assets/e590a39a-c844-499e-a401-7bf91769caef)
 ![screenshot_2](https://github.com/user-attachments/assets/66ad8240-4167-4507-bf58-faf485f92d8f)
 ![screenshot_1](https://github.com/user-attachments/assets/720097eb-bc05-4b19-999d-56771d398fef)
 

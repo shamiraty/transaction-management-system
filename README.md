@@ -162,3 +162,30 @@ This project not only improves daily transaction management but also lays the fo
 
 **GitHub**  
 [Visit my GitHub](https://github.com/shamiraty/)
+
+
+![13](https://github.com/user-attachments/assets/001fec2c-be02-4993-8f26-e608da792075)
+![12](https://github.com/user-attachments/assets/c397ce7e-aa12-42ff-b3dd-61aa11ac0792)
+![11](https://github.com/user-attachments/assets/18209b8c-283d-4130-ae2b-2cb45a1ff135)
+![10](https://github.com/user-attachments/assets/d5eca02e-bf21-42f7-a4af-89b9465ab50e)
+![9](https://github.com/user-attachments/assets/6d7d1423-59ea-45c6-8b94-133dcae21d89)
+![8](https://github.com/user-attachments/assets/6fc5bcd8-2bb5-4c13-9276-72437378167d)
+![7](https://github.com/user-attachments/assets/a19fcbf6-336e-4ff3-ae4b-6712c99b541b)
+![6](https://github.com/user-attachments/assets/8e533983-aeae-4bd8-ac8e-5297eeceb878)
+![5](https://github.com/user-attachments/assets/f9a8ecf2-db08-4324-8d17-9925dc30cff6)
+![4](https://github.com/user-attachments/assets/1df701aa-21ff-44e5-9d4e-f15dbdfc5740)
+![3](https://github.com/user-attachments/assets/c6ac55b6-0b8f-434b-af81-f8c6037e76d5)
+![2](https://github.com/user-attachments/assets/c7459520-cfde-4b0d-b16a-eff36666a991)
+![1](https://github.com/user-attachments/assets/c230cfe4-e79a-4a57-9002-04cf59a56acd)
+![33](https://github.com/user-attachments/assets/2217ad03-1a28-44c3-ad04-59572fcc1660)
+![23](https://github.com/user-attachments/assets/8af70849-52d5-4a9e-8065-08e4f32acaa8)
+![22](https://github.com/user-attachments/assets/1943f979-0c3d-4e8a-bc75-3174b61e91c4)
+![21](https://github.com/user-attachments/assets/ff55b5f1-b79a-44ce-9f16-26769893490c)
+![20](https://github.com/user-attachments/assets/e7684bc8-af77-4f79-ae05-e1d3e89f211f)
+![19](https://github.com/user-attachments/assets/f9b845a3-a57a-45f0-9acd-98cc9e017248)
+![18](https://github.com/user-attachments/assets/165cf1bc-b025-4862-894d-7f933b4f0307)
+![17](https://github.com/user-attachments/assets/63b6f0ee-1575-4554-bdfa-7fce99874527)
+![16](https://github.com/user-attachments/assets/a84748c4-9e40-4efa-a03b-f0ea2686f663)
+![15](https://github.com/user-attachments/assets/176ecd9c-d090-4a89-bd0d-e216b72759b7)
+![14](https://github.com/user-attachments/assets/9bd51fa3-b9af-459c-9a73-8d40baa54993)
+
